@@ -40,7 +40,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 /* filters */
 .filters{display:flex;align-items:center;gap:12px;padding-block:8px 6px}
 .filters label{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.csel{flex:1;max-width:320px;padding:11px 38px 11px 14px;border:1px solid var(--line);border-radius:8px;background-color:var(--surface);color:var(--ink);font:inherit;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;
+.cwrap{position:relative;flex:1;max-width:320px;display:block}
+.cdot{position:absolute;left:14px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;border:1px solid rgba(128,128,128,.6);pointer-events:none}
+.csel{width:100%;padding:11px 38px 11px 42px;border:1px solid var(--line);border-radius:8px;background-color:var(--surface);color:var(--ink);font:inherit;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23888' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 .chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px 7px 10px;font-size:14px;font-weight:500}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -181,18 +183,18 @@ const SIZES = ["M", "L", "XL", "XXL"];
 // Products. Fill in "name" and "price" (number, in rupiah) whenever ready.
 // While "name" is empty the printed slogan is shown as the title.
 const PRODUCTS = [
-  { code:"GG-01", name:"", design:"World Wide",           color:"Hitam",    img:"img/gg-01.jpg", price:null },
-  { code:"GG-02", name:"", design:"Positive and Focused", color:"Orange",   img:"img/gg-02.jpg", price:null },
-  { code:"GG-03", name:"", design:"This Moment Is Your Life", color:"Hitam", img:"img/gg-03.jpg", price:null },
-  { code:"GG-04", name:"", design:"Original Street Wear", color:"Orange",   img:"img/gg-04.jpg", price:null },
-  { code:"GG-05", name:"", design:"01 Denim Outfitters",  color:"Charcoal", img:"img/gg-05.jpg", price:null },
-  { code:"GG-06", name:"", design:"Apparel Original Concept", color:"Charcoal", img:"img/gg-06.jpg", price:null },
-  { code:"GG-07", name:"", design:"Make Today Amazing",   color:"Maroon",   img:"img/gg-07.jpg", price:null },
-  { code:"GG-08", name:"", design:"Follow Your Passion",  color:"Navy",     img:"img/gg-08.jpg", price:null },
-  { code:"GG-09", name:"", design:"Never Give Up",        color:"Navy",     img:"img/gg-09.jpg", price:null },
-  { code:"GG-10", name:"", design:"California Locals Only", color:"Biru",   img:"img/gg-10.jpg", price:null },
-  { code:"GG-11", name:"", design:"Core Denim New York City", color:"Biru", img:"img/gg-11.jpg", price:null },
-  { code:"GG-12", name:"", design:"Nothing Impossible",   color:"Maroon",   img:"img/gg-12.jpg", price:null },
+  { code:"GO 4329.6", name:"", design:"World Wide",           color:"Hitam",    img:"img/gg-01.jpg", detail:"img/gg-31.jpg", price:null },
+  { code:"GO 4329.6", name:"", design:"Positive and Focused", color:"Orange",   img:"img/gg-02.jpg", detail:"img/gg-32.jpg", price:null },
+  { code:"GO 4329.6", name:"", design:"This Moment Is Your Life", color:"Hitam", img:"img/gg-03.jpg", detail:"img/gg-33.jpg", price:null },
+  { code:"GO 4329.6", name:"", design:"Original Street Wear", color:"Orange",   img:"img/gg-04.jpg", detail:"img/gg-34.jpg", price:null },
+  { code:"GO 4329.6", name:"", design:"01 Denim Outfitters",  color:"Charcoal", img:"img/gg-05.jpg", detail:"img/gg-35.jpg", price:null },
+  { code:"GO 4329.6", name:"", design:"Apparel Original Concept", color:"Charcoal", img:"img/gg-06.jpg", detail:"img/gg-36.jpg", price:null },
+  { code:"GO 4328.6", name:"", design:"Make Today Amazing",   color:"Maroon",   img:"img/gg-07.jpg", detail:"img/gg-37.jpg", price:null },
+  { code:"GO 4328.6", name:"", design:"Follow Your Passion",  color:"Navy",     img:"img/gg-08.jpg", detail:"img/gg-38.jpg", price:null },
+  { code:"GO 4328.6", name:"", design:"Never Give Up",        color:"Navy",     img:"img/gg-09.jpg", detail:"img/gg-39.jpg", price:null },
+  { code:"GO 4328.6", name:"", design:"California Locals Only", color:"Biru",   img:"img/gg-10.jpg", detail:"img/gg-40.jpg", price:null },
+  { code:"GO 4328.6", name:"", design:"Core Denim New York City", color:"Biru", img:"img/gg-11.jpg", detail:"img/gg-41.jpg", price:null },
+  { code:"GO 4328.6", name:"", design:"Nothing Impossible",   color:"Maroon",   img:"img/gg-12.jpg", detail:"img/gg-42.jpg", price:null },
   // GO 360.6 oversized basic, sizes L to XXL. One card, tap a color dot to switch photo.
   { code:"GO 360.6", name:"", design:"Oversized Basic", price:null, sizes:["L","XL","XXL"], variants:[
     { color:"Coklat",   img:"img/gg-13.jpg" },
@@ -222,7 +224,7 @@ const rupiah = (n) => "Rp " + Number(n).toLocaleString("id-ID");
 const waLink = (text) => "https://wa.me/" + (WA_NUMBER || "") + "?text=" + encodeURIComponent(text);
 
 // Every product has variants (one per color). Single-color shirts get one variant.
-PRODUCTS.forEach((p) => { if (!p.variants) p.variants = [{ color:p.color, img:p.img }]; p.v = 0; });
+PRODUCTS.forEach((p) => { if (!p.variants) p.variants = [{ color:p.color, img:p.img, detail:p.detail }]; p.v = 0; });
 const cur = (p) => p.variants[p.v];
 
 function orderText(p, size) {
@@ -249,11 +251,15 @@ let gi = 0; // 0 = full shirt photo, 1 = print close-up
 let lastFocus = null;
 
 function renderFilters() {
-  const names = Object.keys(COLORS).filter((c) => PRODUCTS.some((p) => p.variants.some((v) => v.color === c)));
+  const names = Object.keys(COLORS).filter((c) => PRODUCTS.some((p) => p.variants.some((v) => v.color === c))).sort((a, b) => a.localeCompare(b, "id"));
   const count = (c) => PRODUCTS.filter((p) => p.variants.some((v) => v.color === c)).length;
-  $("filters").innerHTML = '<label for="colorSel">Warna</label><select id="colorSel" class="csel">' +
+  $("filters").innerHTML = '<label for="colorSel">Warna</label><span class="cwrap"><span class="cdot" id="cdot" style="background:' + dotBg(activeColor) + '"></span><select id="colorSel" class="csel">' +
     '<option value="Semua"' + (activeColor === "Semua" ? " selected" : "") + '>Semua warna (' + PRODUCTS.length + ')</option>' +
-    names.map((n) => '<option value="' + n + '"' + (n === activeColor ? " selected" : "") + '>' + n + ' (' + count(n) + ')</option>').join("") + '</select>';
+    names.map((n) => '<option value="' + n + '"' + (n === activeColor ? " selected" : "") + '>' + n + ' (' + count(n) + ')</option>').join("") + '</select></span>';
+}
+function dotBg(c) {
+  if (c !== "Semua") return COLORS[c];
+  return "conic-gradient(" + Object.keys(COLORS).map((k, i, a) => COLORS[k] + " " + (i * 360 / a.length) + "deg " + ((i + 1) * 360 / a.length) + "deg").join(",") + ")";
 }
 
 function cardHtml(p, i) {
@@ -414,7 +420,7 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("cart
 
 $("filters").addEventListener("change", (e) => {
   if (!e.target.matches("#colorSel")) return;
-  activeColor = e.target.value; renderGrid();
+  activeColor = e.target.value; $("cdot").style.background = dotBg(activeColor); renderGrid();
 });
 $("grid").addEventListener("click", (e) => {
   const d = e.target.closest(".dot");
