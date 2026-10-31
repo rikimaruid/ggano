@@ -56,7 +56,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 @media (min-width:1000px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
 .thumb{display:block;width:100%;padding:0;border:0;background:var(--photo);aspect-ratio:1/1}
+.thumb{position:relative;overflow:hidden}
 .thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.thumb .alt{position:absolute;inset:0;opacity:0;transition:opacity .25s}
+@media (hover:hover){.thumb:hover .alt{opacity:1}}
+.thumb:focus-visible .alt{opacity:1}
 .info{display:flex;flex-direction:column;gap:4px;padding:12px 12px 14px;flex:1;min-width:0}
 .meta{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}
 .code{font-weight:700;letter-spacing:.08em;color:var(--tag)}
@@ -210,7 +214,21 @@ const PRODUCTS = [
   { code:"GO 2641.1", name:"", design:"Not Perfect But Cool", price:null, variants:[{ color:"Putih", img:"img/gg-23.jpg", detail:"img/gg-24.jpg" }] },
   { code:"GO 2641.1", name:"", design:"NYC Urban Brand",      price:null, variants:[{ color:"Putih", img:"img/gg-25.jpg", detail:"img/gg-26.jpg" }] },
   { code:"GO 2641.1", name:"", design:"89 New Generation",    price:null, variants:[{ color:"Putih", img:"img/gg-27.jpg", detail:"img/gg-28.jpg" }] },
-  { code:"GO 2641.1", name:"", design:"Never Give Up",        price:null, variants:[{ color:"Putih", img:"img/gg-29.jpg", detail:"img/gg-30.jpg" }] }
+  { code:"GO 2641.1", name:"", design:"Never Give Up",        price:null, variants:[{ color:"Putih", img:"img/gg-29.jpg", detail:"img/gg-30.jpg" }] },
+  // GO 2340.5: 4 photos each (front, back, 2 print close-ups)
+  { code:"GO 2340.5", name:"", design:"You Can Do It Now", price:null, variants:[{ color:"Navy", img:"img/gg-43.jpg", back:"img/gg-46.jpg", detail:"img/gg-44.jpg", detail2:"img/gg-45.jpg" }] },
+  { code:"GO 2340.5", name:"", design:"Brooklyn Time Explains Everything", price:null, variants:[{ color:"Hitam", img:"img/gg-47.jpg", back:"img/gg-50.jpg", detail:"img/gg-48.jpg", detail2:"img/gg-49.jpg" }] },
+  { code:"GO 2340.5", name:"", design:"Stay Humble", price:null, variants:[{ color:"Hitam", img:"img/gg-51.jpg", back:"img/gg-54.jpg", detail:"img/gg-52.jpg", detail2:"img/gg-53.jpg" }] },
+  { code:"GO 2340.5", name:"", design:"California Core", price:null, variants:[{ color:"Biru", img:"img/gg-55.jpg", back:"img/gg-58.jpg", detail:"img/gg-56.jpg", detail2:"img/gg-57.jpg" }] },
+  { code:"GO 2340.5", name:"", design:"Have A Nice Day", price:null, variants:[{ color:"Orange", img:"img/gg-59.jpg", back:"img/gg-62.jpg", detail:"img/gg-60.jpg", detail2:"img/gg-61.jpg" }] },
+  { code:"GO 2340.5", name:"", design:"We Are The Ones", price:null, variants:[{ color:"Navy", img:"img/gg-63.jpg", back:"img/gg-66.jpg", detail:"img/gg-64.jpg", detail2:"img/gg-65.jpg" }] },
+  { code:"GO 2340.5", name:"", design:"Freestyle", price:null, variants:[{ color:"Orange", img:"img/gg-67.jpg", back:"img/gg-70.jpg", detail:"img/gg-68.jpg", detail2:"img/gg-69.jpg" }] },
+  // GO 2347.5: 3 photos each (front, close-up, back or 2nd close-up)
+  { code:"GO 2347.5", name:"", design:"California Five Boroughs", price:null, variants:[{ color:"Charcoal", img:"img/gg-71.jpg", detail:"img/gg-72.jpg", back:"img/gg-73.jpg", photos:["img/gg-71.jpg","img/gg-72.jpg","img/gg-73.jpg"] }] },
+  { code:"GO 2347.5", name:"", design:"Spirit", price:null, variants:[{ color:"Maroon", img:"img/gg-74.jpg", detail:"img/gg-75.jpg", detail2:"img/gg-76.jpg", photos:["img/gg-74.jpg","img/gg-75.jpg","img/gg-76.jpg"] }] },
+  { code:"GO 2347.5", name:"", design:"Think Different 097", price:null, variants:[{ color:"Charcoal", img:"img/gg-77.jpg", detail:"img/gg-78.jpg", detail2:"img/gg-79.jpg", photos:["img/gg-77.jpg","img/gg-78.jpg","img/gg-79.jpg"] }] },
+  { code:"GO 2347.5", name:"", design:"Brooklyn Varsity", price:null, variants:[{ color:"Maroon", img:"img/gg-80.jpg", detail:"img/gg-81.jpg", detail2:"img/gg-82.jpg", photos:["img/gg-80.jpg","img/gg-81.jpg","img/gg-82.jpg"] }] },
+  { code:"GO 2347.5", name:"", design:"Great Things NYC Style", price:null, variants:[{ color:"Navy", img:"img/gg-83.jpg", detail:"img/gg-84.jpg" }] }
 ];
 const COLORS = { Hitam:"#15161a", Orange:"#c9680f", Charcoal:"#4a4c5a", Maroon:"#6b1426", Navy:"#1f2150", Biru:"#2a5385", Coklat:"#8a5a4c", Krem:"#c9b79c", Hijau:"#5e7468", Mustard:"#c28a3a", Putih:"#f6f6f4" };
 /* ===================== */
@@ -267,6 +285,7 @@ function cardHtml(p, i) {
   return '<article class="card" data-card="' + i + '">' +
     '<button type="button" class="thumb" data-open="' + i + '" aria-label="Lihat ' + esc(title(p)) + '">' +
       '<img src="' + v.img + '" width="1000" height="1000" alt="Kaos G-GANO ' + esc(title(p)) + ' warna ' + esc(v.color) + '" loading="lazy">' +
+      (v.detail ? '<img class="alt" src="' + v.detail + '" alt="" width="1000" height="1000" loading="lazy">' : '') +
     '</button>' +
     '<div class="info">' +
       '<div class="meta"><span class="code">' + p.code + '</span><span class="col"><i style="background:' + COLORS[v.color] + '"></i><span class="cname">' + v.color + '</span></span></div>' +
@@ -288,15 +307,22 @@ function updateCard(i) {
   const art = document.querySelector('[data-card="' + i + '"]'); if (!art) return;
   const p = list[i], v = cur(p), img = art.querySelector("img");
   img.src = v.img; img.alt = "Kaos G-GANO " + title(p) + " warna " + v.color;
+  const th = art.querySelector(".thumb"); let alt = th.querySelector(".alt");
+  if (v.detail) {
+    if (!alt) { alt = document.createElement("img"); alt.className = "alt"; alt.alt = ""; alt.width = alt.height = 1000; th.appendChild(alt); }
+    alt.src = v.detail;
+  } else if (alt) alt.remove();
   art.querySelector(".cname").textContent = v.color;
   art.querySelector(".col i").style.background = COLORS[v.color];
   art.querySelectorAll(".dot").forEach((d, j) => d.setAttribute("aria-pressed", String(j === p.v)));
 }
 
+function photosOf(v) { return v.photos || [v.img, v.back, v.detail, v.detail2].filter(Boolean); }
 function thumbsHtml(v) {
-  if (!v.detail) return "";
-  return '<div class="gth">' + [v.img, v.detail].map((src, k) =>
-    '<button type="button" data-g="' + k + '" aria-label="' + (k ? "Foto detail sablon" : "Foto kaos") + '" aria-pressed="' + (k === gi) + '"><img src="' + src + '" alt=""></button>'
+  const ph = photosOf(v);
+  if (ph.length < 2) return "";
+  return '<div class="gth">' + ph.map((src, k) =>
+    '<button type="button" data-g="' + k + '" aria-label="' + (src === v.img ? "Foto kaos tampak depan" : src === v.back ? "Foto kaos tampak belakang" : "Foto detail sablon") + '" aria-pressed="' + (k === gi) + '"><img src="' + src + '" alt=""></button>'
   ).join("") + '</div>';
 }
 
@@ -307,7 +333,7 @@ function renderSheet() {
   $("overlay").innerHTML =
     '<div class="sheet">' +
       '<button type="button" class="x" data-close aria-label="Tutup">&times;</button>' +
-      '<div class="pic"><img src="' + (gi && v.detail ? v.detail : v.img) + '" alt="Kaos G-GANO ' + esc(title(p)) + ' warna ' + esc(v.color) + '">' +
+      '<div class="pic"><img src="' + (photosOf(v)[gi] || v.img) + '" alt="Kaos G-GANO ' + esc(title(p)) + ' warna ' + esc(v.color) + '">' +
       (slidesOf(p).length > 1 ? '<button type="button" class="nav prev" data-step="-1" aria-label="Sebelumnya">&#8249;</button><button type="button" class="nav next" data-step="1" aria-label="Berikutnya">&#8250;</button>' : '') +
        thumbsHtml(v) + '</div>' +
       '<div class="body">' +
@@ -341,7 +367,7 @@ function closeSheet() {
 // Arrows and swipe move through this product's own photos: each color's shirt photo, then its print close-up.
 function slidesOf(p) {
   const out = [];
-  p.variants.forEach((v, j) => { out.push({ v:j, g:0 }); if (v.detail) out.push({ v:j, g:1 }); });
+  p.variants.forEach((v, j) => photosOf(v).forEach((_, g) => out.push({ v:j, g })));
   return out;
 }
 function step(d) {
