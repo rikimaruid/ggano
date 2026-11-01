@@ -69,6 +69,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .card h3{font-family:var(--display);font-weight:700;font-size:21px;line-height:1.1;letter-spacing:.02em;text-transform:uppercase;margin:2px 0 0;text-wrap:balance}
 .price{margin:0;font-size:13px;color:var(--muted)}
 .price b{color:var(--ink);font-size:15px}
+.price s{color:var(--muted);font-size:12px;margin-right:2px}
+.disc{display:inline-block;background:var(--tag);color:#fff;font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;margin-left:4px;vertical-align:1px}
 .order{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--wa);color:var(--wa-ink);text-decoration:none;font-weight:700;font-size:14px;padding:10px 12px;border-radius:8px}
 .order svg{width:16px;height:16px;flex:none}
 .info .price{margin-bottom:10px}
@@ -131,6 +133,8 @@ button.order:disabled{opacity:.45;cursor:not-allowed}
 .rm{border:0;background:none;color:var(--muted);text-decoration:underline;font-size:13px;padding:6px 0 0}
 .sum{display:flex;justify-content:space-between;gap:12px;margin:14px 0;font-weight:700}
 .cartbox .order{margin-top:4px;padding:14px;font-size:15px}
+.itot{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:13px;color:var(--muted)}
+.itot b{color:var(--ink);font-size:14px}
 .cartempty{color:var(--muted);padding:18px 0}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--ink);color:var(--bg);padding:10px 12px 10px 16px;border-radius:999px;display:flex;align-items:center;gap:12px;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:nowrap}
 .toast[hidden]{display:none}
@@ -216,7 +220,7 @@ const PRODUCTS = [
   { code:"GO 2641.1", name:"", design:"89 New Generation",    price:null, variants:[{ color:"Putih", img:"img/gg-27.jpg", detail:"img/gg-28.jpg" }] },
   { code:"GO 2641.1", name:"", design:"Never Give Up",        price:null, variants:[{ color:"Putih", img:"img/gg-29.jpg", detail:"img/gg-30.jpg" }] },
   // GO 2340.5: 4 photos each (front, back, 2 print close-ups)
-  { code:"GO 2340.5", name:"", design:"You Can Do It Now", price:null, variants:[{ color:"Navy", img:"img/gg-43.jpg", back:"img/gg-46.jpg", detail:"img/gg-44.jpg", detail2:"img/gg-45.jpg" }] },
+  { code:"GO 2340.5", name:"", design:"You Can Do It Now", price:null, variants:[{ color:"Biru", img:"img/gg-43.jpg", back:"img/gg-46.jpg", detail:"img/gg-44.jpg", detail2:"img/gg-45.jpg" }] },
   { code:"GO 2340.5", name:"", design:"Brooklyn Time Explains Everything", price:null, variants:[{ color:"Hitam", img:"img/gg-47.jpg", back:"img/gg-50.jpg", detail:"img/gg-48.jpg", detail2:"img/gg-49.jpg" }] },
   { code:"GO 2340.5", name:"", design:"Stay Humble", price:null, variants:[{ color:"Hitam", img:"img/gg-51.jpg", back:"img/gg-54.jpg", detail:"img/gg-52.jpg", detail2:"img/gg-53.jpg" }] },
   { code:"GO 2340.5", name:"", design:"California Core", price:null, variants:[{ color:"Biru", img:"img/gg-55.jpg", back:"img/gg-58.jpg", detail:"img/gg-56.jpg", detail2:"img/gg-57.jpg" }] },
@@ -228,7 +232,14 @@ const PRODUCTS = [
   { code:"GO 2347.5", name:"", design:"Spirit", price:null, variants:[{ color:"Maroon", img:"img/gg-74.jpg", detail:"img/gg-75.jpg", detail2:"img/gg-76.jpg", photos:["img/gg-74.jpg","img/gg-75.jpg","img/gg-76.jpg"] }] },
   { code:"GO 2347.5", name:"", design:"Think Different 097", price:null, variants:[{ color:"Charcoal", img:"img/gg-77.jpg", detail:"img/gg-78.jpg", detail2:"img/gg-79.jpg", photos:["img/gg-77.jpg","img/gg-78.jpg","img/gg-79.jpg"] }] },
   { code:"GO 2347.5", name:"", design:"Brooklyn Varsity", price:null, variants:[{ color:"Maroon", img:"img/gg-80.jpg", detail:"img/gg-81.jpg", detail2:"img/gg-82.jpg", photos:["img/gg-80.jpg","img/gg-81.jpg","img/gg-82.jpg"] }] },
-  { code:"GO 2347.5", name:"", design:"Great Things NYC Style", price:null, variants:[{ color:"Navy", img:"img/gg-83.jpg", detail:"img/gg-84.jpg" }] }
+  { code:"GO 2347.5", name:"", design:"Great Things NYC Style", price:null, variants:[{ color:"Navy", img:"img/gg-83.jpg", detail:"img/gg-84.jpg" }] },
+  // GO 3586.1 white all-over tees: front, close-up, back
+  { code:"GO 3586.1", name:"", design:"Brooklyn New York", price:null, variants:[{ color:"Putih", img:"img/gg-85.jpg", detail:"img/gg-86.jpg", photos:["img/gg-85.jpg","img/gg-86.jpg","img/gg-87.jpg"] }] },
+  { code:"GO 3586.1", name:"", design:"Move On", price:null, variants:[{ color:"Putih", img:"img/gg-88.jpg", detail:"img/gg-89.jpg", photos:["img/gg-88.jpg","img/gg-89.jpg","img/gg-90.jpg"] }] },
+  { code:"GO 3586.1", name:"", design:"1967 Sport House", price:null, variants:[{ color:"Putih", img:"img/gg-91.jpg", detail:"img/gg-92.jpg", photos:["img/gg-91.jpg","img/gg-92.jpg","img/gg-93.jpg"] }] },
+  { code:"GO 3586.1", name:"", design:"Outside The Box", price:null, variants:[{ color:"Putih", img:"img/gg-94.jpg", detail:"img/gg-95.jpg", photos:["img/gg-94.jpg","img/gg-95.jpg","img/gg-96.jpg"] }] },
+  { code:"GO 3586.1", name:"", design:"NYC 89 Sports", price:null, variants:[{ color:"Putih", img:"img/gg-97.jpg", detail:"img/gg-98.jpg", photos:["img/gg-97.jpg","img/gg-98.jpg","img/gg-99.jpg"] }] },
+  { code:"GO 3586.1", name:"", design:"Be Yourself Now", price:null, variants:[{ color:"Putih", img:"img/gg-100.jpg", detail:"img/gg-101.jpg", photos:["img/gg-100.jpg","img/gg-101.jpg","img/gg-102.jpg"] }] }
 ];
 const COLORS = { Hitam:"#15161a", Orange:"#c9680f", Charcoal:"#4a4c5a", Maroon:"#6b1426", Navy:"#1f2150", Biru:"#2a5385", Coklat:"#8a5a4c", Krem:"#c9b79c", Hijau:"#5e7468", Mustard:"#c28a3a", Putih:"#f6f6f4" };
 /* ===================== */
@@ -242,6 +253,13 @@ const rupiah = (n) => "Rp " + Number(n).toLocaleString("id-ID");
 const waLink = (text) => "https://wa.me/" + (WA_NUMBER || "") + "?text=" + encodeURIComponent(text);
 
 // Every product has variants (one per color). Single-color shirts get one variant.
+// Promo prices per code: "was" = list price, "price" = price after the 10% discount tag.
+const PROMO = {
+  "GO 4328.6": { was:97900, price:88110 }, "GO 4329.6": { was:97900, price:88110 },
+  "GO 2340.5": { was:97900, price:88110 }, "GO 2347.5": { was:97900, price:88110 },
+  "GO 360.6":  { was:79900, price:71910 }, "GO 3586.1": { was:89900, price:80910 }, "GO 2641.1": { was:74900, price:67410 }
+};
+PRODUCTS.forEach((p) => { const d = PROMO[p.code]; if (d) { p.was = d.was; p.price = d.price; p.disc = 10; } });
 PRODUCTS.forEach((p) => { if (!p.variants) p.variants = [{ color:p.color, img:p.img, detail:p.detail }]; p.v = 0; });
 const cur = (p) => p.variants[p.v];
 
@@ -251,6 +269,7 @@ function orderText(p, size) {
   return t;
 }
 function priceHtml(p) {
+  if (p.was) return '<p class="price"><s>' + rupiah(p.was) + '</s> <b>' + rupiah(p.price) + '</b> <span class="disc">Diskon ' + p.disc + '%</span></p>';
   return p.price ? '<p class="price"><b>' + rupiah(p.price) + '</b></p>' : '<p class="price">Harga via WhatsApp</p>';
 }
 function dotsHtml(p) {
@@ -395,10 +414,13 @@ function addToCart(p) {
   if (hit) hit.qty += qty; else cart.push({ code:p.code, title:t, color:v.color, size:selectedSize, qty:qty, img:v.img, price:p.price || null });
   saveCart(); refreshCartBadge();
 }
+// Current price for a cart row (looked up live so rows saved before prices existed still total correctly).
+function priceOf(x) { const p = PRODUCTS.find((q) => q.code === x.code && title(q) === x.title); return (p && p.price) || x.price || 0; }
+function cartSum() { return cart.reduce((n, x) => n + priceOf(x) * x.qty, 0); }
 function cartText() {
-  const lines = cart.map((x, i) => (i + 1) + ". " + x.title + " (" + x.code + ") - " + x.color + " - " + x.size + " - " + x.qty + " pcs");
+  const lines = cart.map((x, i) => (i + 1) + ". " + x.title + " (" + x.code + ") - " + x.color + " - " + x.size + " - " + x.qty + " pcs" + (priceOf(x) ? " x " + rupiah(priceOf(x)) + " = " + rupiah(priceOf(x) * x.qty) : ""));
   let t = "Halo G-GANO, saya mau pesan:\n" + lines.join("\n") + "\n\nTotal: " + cartQty() + " pcs";
-  if (cart.every((x) => x.price)) t += "\nPerkiraan harga: " + rupiah(cart.reduce((n, x) => n + x.price * x.qty, 0));
+  if (cart.every(priceOf)) t += "\nTotal harga: " + rupiah(cartSum());
   return t + "\nMohon info harga, stok, dan cara pembayaran.";
 }
 function renderCart() {
@@ -407,12 +429,13 @@ function renderCart() {
     box.innerHTML = '<div class="sheet cartbox"><button type="button" class="x" data-cclose aria-label="Tutup">&times;</button><h2>Keranjang</h2><p class="cartempty">Keranjang masih kosong. Pilih kaos, tentukan ukuran, lalu tambahkan ke sini.</p></div>';
     return;
   }
-  const priced = cart.every((x) => x.price);
+  const priced = cart.every(priceOf);
   box.innerHTML = '<div class="sheet cartbox"><button type="button" class="x" data-cclose aria-label="Tutup">&times;</button><h2>Keranjang</h2><ul class="items">' +
     cart.map((x, i) => '<li class="item"><img src="' + x.img + '" alt=""><div><b>' + esc(x.title) + '</b><small>' + esc(x.code) + ' · ' + esc(x.color) + ' · Ukuran ' + esc(x.size) + '</small>' +
-      '<div class="qty"><button type="button" data-cq="-1" data-ci="' + i + '" aria-label="Kurangi">&minus;</button><output>' + x.qty + '</output><button type="button" data-cq="1" data-ci="' + i + '" aria-label="Tambah">+</button></div></div>' +
+      '<div class="qty"><button type="button" data-cq="-1" data-ci="' + i + '" aria-label="Kurangi">&minus;</button><output>' + x.qty + '</output><button type="button" data-cq="1" data-ci="' + i + '" aria-label="Tambah">+</button></div>' +
+      (priceOf(x) ? '<div class="itot"><span>' + rupiah(priceOf(x)) + ' x ' + x.qty + '</span><b>' + rupiah(priceOf(x) * x.qty) + '</b></div>' : '') + '</div>' +
       '<button type="button" class="rm" data-crm="' + i + '">Hapus</button></li>').join("") + '</ul>' +
-    '<div class="sum"><span>' + cartQty() + ' pcs</span>' + (priced ? '<span>' + rupiah(cart.reduce((n, x) => n + x.price * x.qty, 0)) + '</span>' : '<span style="font-weight:400;color:var(--muted)">Harga dikonfirmasi via WhatsApp</span>') + '</div>' +
+    '<div class="sum"><span>' + cartQty() + ' pcs</span>' + (priced ? '<span>' + rupiah(cartSum()) + '</span>' : '<span style="font-weight:400;color:var(--muted)">Harga dikonfirmasi via WhatsApp</span>') + '</div>' +
     '<a class="order" href="' + waLink(cartText()) + '" target="_blank" rel="noopener">' + WA_ICON + 'Kirim pesanan via WhatsApp</a></div>';
 }
 function openCart() {
